@@ -2,7 +2,8 @@
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
 
-    const targetDate = new Date('2025-11-15T00:00:00');
+    const targetDate = new Date('2025-11-13T09:00:00');
+    let loading = true;
 
     const timeRemaining = writable({
         days: 0,
@@ -30,6 +31,7 @@
     };
 
     onMount(() => {
+        loading = false;
         updateCountdown();
         const interval = setInterval(updateCountdown, 10);
 
@@ -55,9 +57,17 @@
     .countdown {
         text-align: center;
     }
-</style>
 
+    .loading { 
+        font-size: 2em;
+        font-weight: 900;
+    }
+</style>
 <div class="background">
+    {#if loading}
+    <p class="loading">Loading...</p>
+    {/if}
+    {#if !loading}
     <div class="countdown">
         <h1>For Faiz's CST</h1>
 
@@ -67,4 +77,5 @@
         {$timeRemaining.seconds}s
         {$timeRemaining.milliseconds}ms
     </div>
+    {/if}
 </div>
